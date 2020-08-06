@@ -14,7 +14,7 @@ public class Program {
 
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
-		System.out.println("TESTE 1 FIND BY ID");
+		System.out.println(" TESTE 1 FIND BY ID");
 		Seller sellers = sellerDao.findById(2);
 		System.out.println(sellers);
 		
@@ -24,6 +24,12 @@ public class Program {
 		List<Seller> list = sellerDao.findByDepartment(department);
 		for(Seller seller : list ) {
 			System.out.println(seller);
+		}
+		
+		System.out.println("\n TESTE 3 FIND All");
+		list = sellerDao.findAll();
+		for(Seller obj : list) {
+			System.out.println(obj);
 		}
 		
 	}
