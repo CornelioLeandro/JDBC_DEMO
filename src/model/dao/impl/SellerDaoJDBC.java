@@ -53,15 +53,8 @@ public class SellerDaoJDBC implements SellerDao{
 			st.setInt(1, id);//este id é o id que o metodo retorna como parametro e o 1 é o ?
 			rs = st.executeQuery();
 			if (rs.next()) { //nesse if estamos instanciando os objetos para que seja possivel manipular o mesmo mais a frente
-				Department dep = new Department();
-				dep.setId(rs.getInt("DepartmentId"));
-				dep.setName(rs.getString("DepName"));
-				Seller obj = new Seller();
-				obj.setId(rs.getInt("id"));
-				obj.setName(rs.getString("Name"));
-				obj.setEmail(rs.getString("Email"));
-				obj.setBaseSalary(rs.getDouble("BaseSalary"));
-				obj.setBirthDate(rs.getDate("BirthDate"));
+				Department dep = instantiateDepartment(rs);// metodo auxiliar
+				Seller obj = instantiateSeller(rs, dep);//metodo auxiliar
 				return obj;
 			}
 			return null;
@@ -73,6 +66,24 @@ public class SellerDaoJDBC implements SellerDao{
 			DB.closeResultSet(rs);
 			
 		}
+	}
+
+	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+		Seller obj = new Seller();
+		obj.setId(rs.getInt("Id"));
+		obj.setName(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		obj.setBirthDate(rs.getDate("BirthDate"));
+		obj.setDepartment(dep);
+		return obj;
+	}
+
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {
+		Department dep = new Department();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
+		return dep;
 	}
 
 	@Override
